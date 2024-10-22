@@ -1,58 +1,30 @@
 #!/usr/bin/env python3
-"""
-Script to analyze logs from an NGINX MongoDB collection.
-
-This script connects to a MongoDB database and retrieves various statistics
-about the HTTP requests logged in the NGINX collection, including the total
-number of logs and the count of each HTTP method used.
-
-Usage:
-    python3 script_name.py
-"""
-
+'''Task 12's module.
+'''
 from pymongo import MongoClient
 
 
-def main():
-    """
-    Connects to the MongoDB database and initiates the log statistics
-    retrieval.
+def print_nginx_request_logs(nginx_collection):
+    '''Prints stats about Nginx request logs.
+    '''
+    print('{} logs'.format(nginx_collection.count_documents({})))
+    print('Methods:')
+    methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
+    for method in methods:
+        req_count = len(list(nginx_collection.find({'method': method})))
+        print('\tmethod {}: {}'.format(method, req_count))
+    status_checks_count = len(list(
+        nginx_collection.find({'method': 'GET', 'path': '/status'})
+    ))
+    print('{} status check'.format(status_checks_count))
 
-    This function creates a connection to the MongoDB server running on
-    localhost and calls the log_stats() function to print out the statistics
-    of the NGINX logs.
 
-    Returns:
-        None
-    """
+def run():
+    '''Provides some stats about Nginx logs stored in MongoDB.
+    '''
     client = MongoClient('mongodb://127.0.0.1:27017')
-    log_stats(client.logs.nginx)
-
-
-def log_stats(cllctn):
-    """
-    Prints statistics about HTTP requests logged in the specified MongoDB
-    collection.
-
-    This function retrieves and displays the total number of logs, counts for
-    each HTTP method (GET, POST, PUT, PATCH, DELETE), and the number of status
-    check requests made to the "/status" path.
-
-    Args:
-        cllctn: The MongoDB collection object containing the NGINX logs.
-
-    Returns:
-        None
-    """
-    print(f'''{cllctn.count_documents({})} logs
-Methods:
-    method GET: {cllctn.count_documents({"method": "GET"})}
-    method POST: {cllctn.count_documents({"method": "POST"})}
-    method PUT: {cllctn.count_documents({"method": "PUT"})}
-    method PATCH: {cllctn.count_documents({"method": "PATCH"})}
-    method DELETE: {cllctn.count_documents({"method": "DELETE"})}
-{cllctn.count_documents({"method": "GET", "path": "/status"})} status check''')
+    print_nginx_request_logs(client.logs.nginx)
 
 
 if __name__ == '__main__':
-    main()
+    run()
