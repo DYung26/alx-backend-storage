@@ -1,0 +1,2 @@
+// Lists all available databases on the MongoDB server along with their sizes.
+show dbs
