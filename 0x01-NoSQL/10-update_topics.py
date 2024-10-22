@@ -21,7 +21,7 @@ def update_topics(mongo_collection, name, topics):
     Returns:
         UpdateResult: The result of the update operation.
     """
-    mongo_collection.update(
+    mongo_collection.update_many(
         {"name": name},
         {"$set": {"topics": topics}}
     )
