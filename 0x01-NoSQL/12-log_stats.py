@@ -1,15 +1,25 @@
 #!/usr/bin/env python3
+"""
+Script to analyze logs from an NGINX MongoDB collection.
+
+This script connects to a MongoDB database and retrieves various statistics
+about the HTTP requests logged in the NGINX collection, including the total
+number of logs and the count of each HTTP method used.
+
+Usage:
+    python3 script_name.py
+"""
 
 from pymongo import MongoClient
 
 client = MongoClient('mongodb://127.0.0.1:27017')
-nginx_collection = client.logs.nginx
+cllctn = client.logs.nginx
 
-print(f'''{nginx_collection.count_documents({})} logs
+print(f'''{cllctn.count_documents({})} logs
 Methods:
-    method {nginx_collection.count_documents({"method": "GET"})}
-    method {nginx_collection.count_documents({"method": "POST"})}
-    method {nginx_collection.count_documents({"method": "PUT"})}
-    method {nginx_collection.count_documents({"method": "PATCH"})}
-    method {nginx_collection.count_documents({"method": "DELETE"})}
-{nginx_collection.count_documents({"method": "GET", "path": "/status"})} status check''')
+    method {cllctn.count_documents({"method": "GET"})}
+    method {cllctn.count_documents({"method": "POST"})}
+    method {cllctn.count_documents({"method": "PUT"})}
+    method {cllctn.count_documents({"method": "PATCH"})}
+    method {cllctn.count_documents({"method": "DELETE"})}
+{cllctn.count_documents({"method": "GET", "path": "/status"})} status check''')
