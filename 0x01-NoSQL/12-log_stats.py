@@ -17,9 +17,9 @@ cllctn = client.logs.nginx
 
 print(f'''{cllctn.count_documents({})} logs
 Methods:
-    method {cllctn.count_documents({"method": "GET"})}
-    method {cllctn.count_documents({"method": "POST"})}
-    method {cllctn.count_documents({"method": "PUT"})}
-    method {cllctn.count_documents({"method": "PATCH"})}
-    method {cllctn.count_documents({"method": "DELETE"})}
+    method GET: {cllctn.count_documents({"method": "GET"})}
+    method POST: {cllctn.count_documents({"method": "POST"})}
+    method PUT: {cllctn.count_documents({"method": "PUT"})}
+    method PATCH: {cllctn.count_documents({"method": "PATCH"})}
+    method DELETE: {cllctn.count_documents({"method": "DELETE"})}
 {cllctn.count_documents({"method": "GET", "path": "/status"})} status check''')
