@@ -12,10 +12,12 @@ Usage:
 
 from pymongo import MongoClient
 
-client = MongoClient('mongodb://127.0.0.1:27017')
-cllctn = client.logs.nginx
 
-print(f'''{cllctn.count_documents({})} logs
+def main():
+    client = MongoClient('mongodb://127.0.0.1:27017')
+    cllctn = client.logs.nginx
+
+    print(f'''{cllctn.count_documents({})} logs
 Methods:
     method GET: {cllctn.count_documents({"method": "GET"})}
     method POST: {cllctn.count_documents({"method": "POST"})}
@@ -23,3 +25,7 @@ Methods:
     method PATCH: {cllctn.count_documents({"method": "PATCH"})}
     method DELETE: {cllctn.count_documents({"method": "DELETE"})}
 {cllctn.count_documents({"method": "GET", "path": "/status"})} status check''')
+
+
+if __name__ == '___main__':
+    main()
