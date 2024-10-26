@@ -7,7 +7,7 @@ It includes methods for storing and retrieving various data types.
 
 import redis
 import uuid
-from typing import Union
+from typing import Union, Optional, Callable
 
 
 class Cache:
