@@ -32,7 +32,11 @@ class Cache:
         self._redis.set(key, data)
         return key
 
-    def get(self, key, fn):
+    def get(
+            self,
+            key: str,
+            fn: Optional[Callable[[bytes], Union[str, int]]] = None
+            ) -> Optional[Union[str, int]]:
         """
         Retrieve data from Redis by key, applying an optional transformation
         function.
@@ -49,7 +53,7 @@ class Cache:
         byte_string = self._redis.get(key)
         return fn(byte_string) if fn is not None else byte_string
 
-    def get_str(key):
+    def get_str(key: str) -> Optional[str]:
         """
         Retrieve a string value from Redis by key.
 
@@ -61,7 +65,7 @@ class Cache:
         """
         self.get(key, lambda x: x.decode('utf-8'))
 
-    def get_int(key):
+    def get_int(key: str) -> Optional[int]:
         """
         Retrieve an integer value from Redis by key.
 
