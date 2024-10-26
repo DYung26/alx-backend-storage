@@ -46,7 +46,8 @@ class Cache:
         - Optional[Union[str, int]]: The retrieved data after transformation,
         or None if not found.
         """
-        return fn(self._redis.get(key)) if fn is not None else self._redis.get(key)
+        byte_string = self._redis.get(key)
+        return fn(byte_string) if fn is not None else byte_string
 
     def get_str(key):
         """
